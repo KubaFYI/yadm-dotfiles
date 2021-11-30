@@ -178,3 +178,51 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# Necessary for transparency to work ok
+exec --no-startup-id picom -f --experimental-backends
+exec --no-startup-id blueman-applet
+
+bindsym Control+Shift+grave exec guake
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        status_command i3status
+}
+
+# Wallpaper and theming
+exec --no-startup-id "python3 -m pywal -i '/home/kubafyi/Pictures/Wallpapers/'"
+
+# Move workspace between monitors
+bindsym $mod+x move workspace to output right
+
+### i3-gaps stuff ###
+
+# Necessary for i3-gaps to work properly (pixel can be any value)
+for_window [class="^.*"] border pixel 0
+
+# Smart Gaps
+smart_gaps on
+
+# Smart Borders
+smart_borders on
+
+# Set inner/outer gaps
+gaps inner 10
+gaps outer 5
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Pause mode "$mode_system"
