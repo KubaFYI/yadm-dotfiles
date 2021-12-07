@@ -179,10 +179,25 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Necessary for transparency to work ok
-exec --no-startup-id picom -f --experimental-backends
+# some helpful applets to be started at boot
+exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 
+# Backlight
+# initial
+exec xbacklight -set 15
+# enable control with buttons
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+
+# Necessary for visual effects to work ok
+exec --no-startup-id picom -f -i 1 -m 0.9 -b --experimental-backends
+
+# Make sure monitors are configured correctly
+exec --no-startup-id autorandr -c
+
+# Guake shortcut
+exec -no-startup-id guake
 bindsym Control+Shift+grave exec guake
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -192,7 +207,7 @@ bar {
 }
 
 # Wallpaper and theming
-exec --no-startup-id "python3 -m pywal -i '/home/kubafyi/Pictures/Wallpapers/'"
+exec --no-startup-id "sleep 1; python3 -m pywal -i '/home/kubafyi/Pictures/Wallpapers/'"
 
 # Move workspace between monitors
 bindsym $mod+x move workspace to output right
